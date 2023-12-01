@@ -37,21 +37,38 @@ fn parse_args() -> Arguments {
 }
 
 fn get_num_from_text(text: &str) -> Option<usize> {
-    let mut num_1: Option<char> = None;
-    let mut num_2: Option<char> = None;
-
     if text.len() < 1 {
         return None;
     }
 
-    for character in text.chars() {
+    let mut num_1: Option<char> = None;
+    let mut num_2: Option<char> = None;
+    let mut modified_text = text.to_lowercase();
+    let num_texts: [(&str, &str); 9] = [
+        ("one", "1"),
+        ("two", "2"),
+        ("three", "3"),
+        ("four", "4"),
+        ("five", "5"),
+        ("six", "6"),
+        ("seven", "7"),
+        ("eight", "8"),
+        ("nine", "9"),
+    ];
+    
+    // Replace text numbers with digits
+    for (num_string, num) in num_texts {
+        modified_text = modified_text.replace(num_string, num);
+    }
+
+    for character in modified_text.chars() {
         if character.is_digit(10) {
             num_1 = Some(character);
             break;
         }
     }
 
-    for character in text.chars().rev() {
+    for character in modified_text.chars().rev() {
         if character.is_digit(10) {
             num_2 = Some(character);
             break;
