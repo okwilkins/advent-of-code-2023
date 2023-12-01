@@ -45,14 +45,14 @@ fn get_num_from_text(text: &str) -> Option<usize> {
     }
 
     for character in text.chars() {
-        if character.is_digit(10) & num_1.is_none(){
+        if character.is_digit(10) {
             num_1 = Some(character);
             break;
         }
     }
 
     for character in text.chars().rev() {
-        if character.is_digit(10) & num_2.is_none(){
+        if character.is_digit(10) {
             num_2 = Some(character);
             break;
         }
