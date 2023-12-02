@@ -14,6 +14,7 @@ fn main() {
             },
             None => continue,
         }
+        println!("");
     }
 
     println!("Sum: {}", sum);
@@ -37,29 +38,15 @@ fn parse_args() -> Arguments {
 }
 
 fn get_num_from_text(text: &str) -> Option<usize> {
+    println!("Original text: {}", text);
     if text.len() < 1 {
         return None;
     }
 
     let mut num_1: Option<char> = None;
     let mut num_2: Option<char> = None;
-    let mut modified_text = text.to_lowercase();
-    let num_texts: [(&str, &str); 9] = [
-        ("one", "1"),
-        ("two", "2"),
-        ("three", "3"),
-        ("four", "4"),
-        ("five", "5"),
-        ("six", "6"),
-        ("seven", "7"),
-        ("eight", "8"),
-        ("nine", "9"),
-    ];
-    
-    // Replace text numbers with digits
-    for (num_string, num) in num_texts {
-        modified_text = modified_text.replace(num_string, num);
-    }
+    let modified_text: String = convert_string_nums_to_num(text);
+    println!("Modified text: {}", modified_text);
 
     for character in modified_text.chars() {
         if character.is_digit(10) {
@@ -84,4 +71,48 @@ fn get_num_from_text(text: &str) -> Option<usize> {
         },
         _ => return None,
     }
+}
+
+/// With a given piece of text, convert all text representations of numbers to numbers.
+/// If there is overlap between the numbers, only the first number will be converted.
+/// 
+/// # Arguments
+/// * `text` - The text to search for numbers in.
+/// 
+/// # Returns
+/// The modified text.
+fn convert_string_nums_to_num(text: &str) -> String {
+    let mut index = 0;
+
+    let text_iter = std::iter::from_fn(move || {
+        let reduced_text = &text[index..];
+
+        let result = if reduced_text.starts_with("one") {
+            Some('1')
+        } else if reduced_text.starts_with("two") {
+            Some('2')
+        } else if reduced_text.starts_with("three") {
+            Some('3')
+        } else if reduced_text.starts_with("four") {
+            Some('4')
+        } else if reduced_text.starts_with("five") {
+            Some('5')
+        } else if reduced_text.starts_with("six") {
+            Some('6')
+        } else if reduced_text.starts_with("seven") {
+            Some('7')
+        } else if reduced_text.starts_with("eight") {
+            Some('8')
+        } else if reduced_text.starts_with("nine") {
+            Some('9')
+        } else {
+            let result = reduced_text.chars().next();
+            result
+        };
+        index += 1;
+        result
+    });
+
+    let result: String = text_iter.into_iter().collect();
+    return result
 }
