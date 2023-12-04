@@ -7,6 +7,7 @@ fn main() {
         .expect("Should have been able to read the file");
     let check_bag = Bag::new(12, 13, 14);
     let mut sum_of_game_ids: usize = 0;
+    let mut sum_of_game_powers: usize = 0;
     
 
     for line in text_contents.lines() {
@@ -24,13 +25,18 @@ fn main() {
             sum_of_game_ids += game_id;
         }
 
+        let game_power: usize = parsed_bag.red_cubes * parsed_bag.green_cubes * parsed_bag.blue_cubes;
+        sum_of_game_powers += game_power;
+
         println!("Game ID: {}", game_id);
         println!("Bag: {:?}", parsed_bag);
         println!("Valid game: {}", valid_game);
+        println!("Game power: {}", game_power);
         println!("");
     }
 
     println!("Sum of game IDs: {}", sum_of_game_ids);
+    println!("Sum of game powers: {}", sum_of_game_powers);
 }
 
 #[derive(Debug)]
