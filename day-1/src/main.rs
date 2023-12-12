@@ -43,33 +43,16 @@ fn get_num_from_text(text: &str) -> Option<usize> {
         return None;
     }
 
-    let mut num_1: Option<char> = None;
-    let mut num_2: Option<char> = None;
     let modified_text: String = convert_string_nums_to_num(text);
     println!("Modified text: {}", modified_text);
 
-    for character in modified_text.chars() {
-        if character.is_digit(10) {
-            num_1 = Some(character);
-            break;
-        }
-    }
-
-    for character in modified_text.chars().rev() {
-        if character.is_digit(10) {
-            num_2 = Some(character);
-            break;
-        }
-    }
+    let num_1 = modified_text.chars().find(|char| char.is_digit(10));
+    let num_2 = modified_text.chars().rev().find(|char| char.is_digit(10));
 
     match (num_1, num_2) {
-        (Some(num_1), Some(num_2)) => {
-            return Some(
-                (num_1.to_string() + &num_2.to_string())
-                    .parse::<usize>().unwrap()
-            )
-        },
-        _ => return None,
+        (Some(num_1), Some(num_2)) =>
+            Some((num_1.to_string() + &num_2.to_string()).parse::<usize>().unwrap()),
+        _ => None,
     }
 }
 
